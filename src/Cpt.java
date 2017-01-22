@@ -19,6 +19,10 @@ class Cpt {                                              //parent A B -> Node va
         return tableCpt.get(query).get(varValue);
     }
 
+    public HashMap<String, HashMap<String, Double>> getTableCpt() {
+        return tableCpt;
+    }
+
     @Override
     public String toString() {
         return "Cpt{" +

@@ -30,6 +30,20 @@ class Node {
         return values.keySet();
     }
 
+    public HashMap<String, String> getValues() {
+        return values;
+    }
+
+    HashMap<String, HashMap<String,Double>> getCptTable() {
+        return cpt.getTableCpt();
+    }
+    ArrayList<String> getParentsNames(){
+        ArrayList<String> parentsNames=new ArrayList<>();
+        for(Node parent:parents){
+            parentsNames.add(parent.getName());
+        }
+        return parentsNames;
+    }
     ArrayList<Node> getParents() {
         return parents;
     }
