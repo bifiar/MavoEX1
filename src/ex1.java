@@ -10,12 +10,12 @@ public class ex1 {
         HashMap<String,String> evdinceVarNameAndVal=new HashMap<>();
 
         System.out.println("input 2");
-        BayesinNetwork bn1=InputNanually.bayesinNetwork1();
-        Factor f1=CptToFactor.factorForHidden(bn1.getNode("A"),evdinceVarNameAndVal);
+        BayesinNetwork bn1=InputNanually.bayesinNetwork2();
+        Factor f1=CptToFactor.factorForHidden(bn1.getNode("C"),evdinceVarNameAndVal);
         System.out.println(f1);
-        evdinceVarNameAndVal.put("A","1");
-        evdinceVarNameAndVal.put("E","1");
-        CptToFactor.removeIreleventRows(f1,bn1.getNode("A"),evdinceVarNameAndVal);
+        evdinceVarNameAndVal.put("B","1");
+        evdinceVarNameAndVal.put("C","1");
+        CptToFactor.removeIreleventRowsAndcols(f1,bn1.getNode("A"),evdinceVarNameAndVal);
         System.out.println(f1);
 
 //        System.out.println("input 2");
