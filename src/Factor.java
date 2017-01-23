@@ -7,6 +7,7 @@ public class Factor {
     private ArrayList<ArrayList<String>> factorTable;
     private ArrayList<Double> factorValues;
     private ArrayList<String> varNames;
+    String valueName; // "P(M|A)"
     private static int factorSeqNum=0;
 
     public Factor() {
@@ -15,9 +16,26 @@ public class Factor {
         varNames=new ArrayList<>();
         factorSeqNum++;
     }
-    public void addFactorKey(int i,String key){
+
+    public ArrayList<String> getVarNames() {
+        return varNames;
+    }
+
+    public void removeFactorValues(int index) {
+       factorValues.remove(index);
+    }
+
+    public ArrayList<Double> getFactorValues() {
+        return factorValues;
+    }
+    public void removeFactorVarName(int index){
+        varNames.remove(index);
+    }
+
+    public void addFactorKey(int i, String key){
         try {
             factorTable.get(i).add(key);
+
         }catch (IndexOutOfBoundsException ex){
             factorTable.add(new ArrayList<>());
             factorTable.get(i).add(key);
@@ -32,6 +50,15 @@ public class Factor {
     public void addVarName(String name){
         varNames.add(name);
     }
+
+    public String getValueName() {
+        return valueName;
+    }
+
+    public void setValueName(String valueName) {
+        this.valueName = valueName;
+    }
+
     public static int getFactorSeqNum() {
         return factorSeqNum;
     }
@@ -44,6 +71,7 @@ public class Factor {
     public String toString() {
         return "Factor{" +
                 "factorTable=" + factorTable +
+                "\nvalueName=" +valueName+
                 "\nfactorValues=" + factorValues +
                 "\nvarNames=" + varNames +
                 '}';
