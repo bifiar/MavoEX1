@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 /**contain all nodes in one Bayesin Network
@@ -18,6 +20,9 @@ class BayesinNetwork {
     }
     Set<String> getNodesNames(){
         return bayesinNetwork.keySet();
+    }
+    List<Node>  getNodesValues(){
+        return new ArrayList<>(bayesinNetwork.values());
     }
     public boolean isNode(String keyForNode){
         return bayesinNetwork.containsKey(keyForNode);

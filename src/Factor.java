@@ -23,6 +23,9 @@ public class Factor {
         varNames=new ArrayList<>(other.getVarNames());
         seqNumber=factorSeqNum++;
     }
+    public int getVarNameIndex(String name){
+        return varNames.indexOf(name);
+    }
 
     public void setFactorTable(ArrayList<ArrayList<String>> factorTable) {
         this.factorTable = factorTable;
@@ -90,11 +93,11 @@ public class Factor {
 
     @Override
     public String toString() {
-        return "Factor{" +
-                "factorTable=" + factorTable +
-                "\nvalueName=" +valueName+
+        return
+                "\nseqNumber= " +seqNumber+
+                "\nfactorTable=" + factorTable +
                 "\nfactorValues=" + factorValues +
-                "\nvarNames=" + varNames +
-                '}';
+                "\nvarNames=" + varNames
+                ;
     }
 }

@@ -9,27 +9,30 @@ import java.util.List;
 public class ex1 {
     public static void main(String[] args) {
       //  ReadInputFile.readFileLineByLine("input.txt");
-        HashMap<String,String> evdinceVarNameAndVal=new HashMap<>();
-        evdinceVarNameAndVal.put("J","0");
-        evdinceVarNameAndVal.put("M","0");
+//        HashMap<String,String> evdinceVarNameAndVal=new HashMap<>();
+//        evdinceVarNameAndVal.put("J","0");
+//        evdinceVarNameAndVal.put("M","0");
         System.out.println("input 1");
         BayesinNetwork bn1=InputNanually.bayesinNetwork1();
-        Factor f1=CptToFactor.cptToFactor(bn1.getNode("J"),evdinceVarNameAndVal);
-        Factor f2=CptToFactor.cptToFactor(bn1.getNode("M"),evdinceVarNameAndVal);
-        Factor f3=CptToFactor.cptToFactor(bn1.getNode("A"),evdinceVarNameAndVal);
+        AlgoTwo.ansForQuery(bn1,"P(B=true|J=true,M=true)");
+//        Factor f1=CptToFactor.cptToFactor(bn1.getNode("J"),evdinceVarNameAndVal);
+//        Factor f2=CptToFactor.cptToFactor(bn1.getNode("M"),evdinceVarNameAndVal);
+//        Factor f3=CptToFactor.cptToFactor(bn1.getNode("A"),evdinceVarNameAndVal);
+//
+//
+//        Factor f4=JoinFactors.joinFactors(f1,f2,bn1);
+//        Factor f5=JoinFactors.joinFactors(f4,f3,bn1);
+//        System.out.println("after multipale values");
+//        System.out.println(f5);
+//
+//        JoinFactors.eliminateVar(f5,"A");
+//
+//        System.out.println(f5);
 
-        System.out.println("factor 1\n"+f1);
-        System.out.println("factor 2\n"+f2);
 //        List<String> list=new ArrayList<>();list.add("1");list.add("0");
 //        String t="T";
 //        JoinFactors.addNodeToFactor(f1,t,list);
 //        System.out.println("after Adding line\n"+f1);
-        Factor f4=JoinFactors.joinFactors(f1,f2);
-        Factor f5=JoinFactors.joinFactors(f4,f3);
-        System.out.println("after multipale values");
-        System.out.println(f5);
-
-
 
 //        System.out.println("after multipale values");
 //        System.out.println(newFactor);

@@ -49,7 +49,7 @@ class Node {
         return parents;
     }
     List<String> getValuesNumbers(){
-      return (List<String>) values.values();
+      return new ArrayList<>(values.values());
     }
 
     String getName() {

@@ -8,13 +8,9 @@ import java.util.List;
  */
 public class JoinFactors {
 
-    private static BayesinNetwork bayesinNetwork;
 
-    public JoinFactors(BayesinNetwork bayesinNetwork) {
-        this.bayesinNetwork = bayesinNetwork;
-    }
 
-    public static Factor joinFactors(Factor f1, Factor f2){
+    public static Factor joinFactors(Factor f1, Factor f2,BayesinNetwork bayesinNetwork){
         if(f1.getVarNames().size()<f2.getVarNames().size()) {
             Factor tempFactor = f1;
             f1 = f2;
@@ -93,5 +89,26 @@ public class JoinFactors {
             }
         }
         return rowF2.size()==countMatch;
+    }
+    public static void eliminateVar(Factor factor,String varName){
+        int indexToRemove=factor.getVarNameIndex(varName);
+        ArrayList<Integer> toRemove=new ArrayList<>();
+        toRemove.add(indexToRemove);
+        CptToFactor.removeIreleventCols(factor,toRemove);
+        ArrayList<ArrayList<String>> factorTable=factor.getFactorTable();
+        ArrayList<Double> factorValues=factor.getFactorValues();
+        ArrayList<Double> newfactorValues=new ArrayList<>();
+        ArrayList<ArrayList<String>> newFactorTable=new ArrayList<>();
+
+        for (int i = 0; i <factorTable.size()-1 ; i++) {
+            for (int j = i+1; j <factorTable.size() ; j++) {
+                if(factorTable.get(i).equals(factorTable.get(j))){
+                    newFactorTable.add(new ArrayList<>(factorTable.get(i)));
+                    newfactorValues.add(factorValues.get(i)+factorValues.get(j));// TODO sum plus
+                }
+            }
+        }
+        factor.setFactorTable(newFactorTable);
+        factor.setFactorValues(newfactorValues);
     }
 }
