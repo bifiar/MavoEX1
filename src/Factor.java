@@ -17,6 +17,12 @@ public class Factor {
         varNames=new ArrayList<>();
         seqNumber=factorSeqNum++;
     }
+    public Factor(Factor other){
+        factorTable=new ArrayList<>(other.getFactorTable());
+        factorValues=new ArrayList<>(other.getFactorValues());
+        varNames=new ArrayList<>(other.getVarNames());
+        seqNumber=factorSeqNum++;
+    }
 
     public void setFactorTable(ArrayList<ArrayList<String>> factorTable) {
         this.factorTable = factorTable;

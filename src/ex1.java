@@ -10,15 +10,30 @@ public class ex1 {
     public static void main(String[] args) {
       //  ReadInputFile.readFileLineByLine("input.txt");
         HashMap<String,String> evdinceVarNameAndVal=new HashMap<>();
-
+        evdinceVarNameAndVal.put("J","0");
+        evdinceVarNameAndVal.put("M","0");
         System.out.println("input 1");
         BayesinNetwork bn1=InputNanually.bayesinNetwork1();
-        Factor f1=CptToFactor.cptToFactor(bn1.getNode("A"),evdinceVarNameAndVal);
-        System.out.println(f1);
-        List<String> list=new ArrayList<>();list.add("0");list.add("1");list.add("2");
-        String t="T";
-        JoinFactors.addNodeToFactor(f1,t,list);
-        System.out.println("after addnig line\n"+f1);
+        Factor f1=CptToFactor.cptToFactor(bn1.getNode("J"),evdinceVarNameAndVal);
+        Factor f2=CptToFactor.cptToFactor(bn1.getNode("M"),evdinceVarNameAndVal);
+        Factor f3=CptToFactor.cptToFactor(bn1.getNode("A"),evdinceVarNameAndVal);
+
+        System.out.println("factor 1\n"+f1);
+        System.out.println("factor 2\n"+f2);
+//        List<String> list=new ArrayList<>();list.add("1");list.add("0");
+//        String t="T";
+//        JoinFactors.addNodeToFactor(f1,t,list);
+//        System.out.println("after Adding line\n"+f1);
+        Factor f4=JoinFactors.joinFactors(f1,f2);
+        Factor f5=JoinFactors.joinFactors(f4,f3);
+        System.out.println("after multipale values");
+        System.out.println(f5);
+
+
+
+//        System.out.println("after multipale values");
+//        System.out.println(newFactor);
+
 //        evdinceVarNameAndVal.put("E","1");
 //        evdinceVarNameAndVal.put("B","0");
 //        CptToFactor.removeIreleventRowsAndcols(f1,evdinceVarNameAndVal);

@@ -7,14 +7,28 @@ import java.util.List;
  * Created by Ofir on 1/23/2017.
  */
 public class JoinFactors {
-    public static void joinFactors(Factor f1,Factor f2){
-        ArrayList<ArrayList<String>> table1=f1.getFactorTable();
-        ArrayList<ArrayList<String>> table2=f2.getFactorTable();
+
+    private static BayesinNetwork bayesinNetwork;
+
+    public JoinFactors(BayesinNetwork bayesinNetwork) {
+        this.bayesinNetwork = bayesinNetwork;
+    }
+
+    public static Factor joinFactors(Factor f1, Factor f2){
+        if(f1.getVarNames().size()<f2.getVarNames().size()) {
+            Factor tempFactor = f1;
+            f1 = f2;
+            f2 = tempFactor;
+        }
         ArrayList<String> varNames1=f1.getVarNames();
         ArrayList<String> varNames2=f2.getVarNames();
-        ArrayList<Double> values1=f1.getFactorValues();
-        ArrayList<Double> values2=f1.getFactorValues();
 
+        for(String name:varNames2){
+            if(!varNames1.contains(name)){
+                addNodeToFactor(f1,name,bayesinNetwork.getNode(name).getValuesNumbers());
+            }
+        }
+       return mlutipaleMatchRows(f1,f2);
 
     }
     public static void addNodeToFactor(Factor factor,String nodeName,List<String> values){
@@ -37,7 +51,12 @@ public class JoinFactors {
         factor.setFactorValues(newFactorValues);
 
     }
-    private static void mlutipaleMatchRows(Factor f1,Factor f2){// f1 after join rows from f2(small)
+    public static Factor mlutipaleMatchRows(Factor f1,Factor f2){// f1 after join rows from f2(small)
+        if(f1.getVarNames().size()<f2.getVarNames().size()) {
+            Factor tempFactor = f1;
+            f1 = f2;
+            f2 = tempFactor;
+        }
         ArrayList<ArrayList<String>> factorTable1=f1.getFactorTable();
         ArrayList<ArrayList<String>> factorTable2=f2.getFactorTable();
         ArrayList<String> varNames1=f1.getVarNames();
@@ -63,8 +82,7 @@ public class JoinFactors {
         }
 
 
-
-
+        return new Factor(f1);
     }
     private static boolean isMatchRow(ArrayList<String> rowF1,ArrayList<String> rowF2
                                         ,HashMap<Integer,Integer> matchIndecies){

@@ -39,6 +39,7 @@ public class CptToFactor {
             }
 
         }
+        removeIreleventRowsAndcols(factor,evidenceNameAndVal);
         return factor;
     }
 
@@ -78,8 +79,7 @@ public class CptToFactor {
             }
 
         }
-        System.out.println("Debug ****before removing cols***"); //
-        System.out.println(factor);
+
         removeIreleventCols(factor , indexToRemove);
     }
     private static void removeIreleventCols(Factor factor,ArrayList<Integer>  indexToRemove){

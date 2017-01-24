@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 /** class Node for one Entity like "Alarm"
@@ -46,6 +47,9 @@ class Node {
     }
     ArrayList<Node> getParents() {
         return parents;
+    }
+    List<String> getValuesNumbers(){
+      return (List<String>) values.values();
     }
 
     String getName() {
