@@ -18,6 +18,20 @@ public class Factor {
         seqNumber=factorSeqNum++;
     }
 
+    public void setFactorTable(ArrayList<ArrayList<String>> factorTable) {
+        this.factorTable = factorTable;
+    }
+    public void setValue(int index,Double value){
+        factorValues.set(index,value);
+    }
+    public Double getValue(int index){
+        return factorValues.get(index);
+    }
+
+    public void setFactorValues(ArrayList<Double> factorValues) {
+        this.factorValues = factorValues;
+    }
+
     public ArrayList<String> getVarNames() {
         return varNames;
     }

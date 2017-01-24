@@ -12,7 +12,9 @@ public class CptToFactor {
     public static Factor cptToFactor(Node node, HashMap<String, String> evidenceNameAndVal) {
         Factor factor = new Factor();
         factor.setValueName(node.getName());
-        factor.addVarNames(node.getParentsNames());
+        if(!node.getParentsNames().equals("none")) {
+            factor.addVarNames(node.getParentsNames());
+        }
         factor.addVarName(node.getName());
 
         HashMap<String, HashMap<String, Double>> cptTable = node.getCptTable();
@@ -27,7 +29,9 @@ public class CptToFactor {
             Iterator<String> iterNodeKeys = cptTable.get(key).keySet().iterator(); //iter for 0->0.2
             while (iterNodeKeys.hasNext()) {
                 for (int j = 0; j < keySplited.length; j++) {
+                    if(!keySplited[j].equals("none")){
                     factor.addFactorKey(i, keySplited[j]);
+                    }
                 }
                 String valueNodeKey = iterNodeKeys.next();
                 factor.addFactorKey(i++, valueNodeKey);
