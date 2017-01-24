@@ -9,12 +9,11 @@ public class CptToFactor {
      * @param evidenceNameAndVal "E"->0 for E=0 evidance (const)
      * @return
      */
-    public static Factor factorForHidden(Node node, HashMap<String, String> evidenceNameAndVal) {
+    public static Factor cptToFactor(Node node, HashMap<String, String> evidenceNameAndVal) {
         Factor factor = new Factor();
-        factor.setValueName(factor.getValueName()+node.getName());
+        factor.setValueName(node.getName());
         factor.addVarNames(node.getParentsNames());
         factor.addVarName(node.getName());
-      //  addReleventsVarNames(factor, node, evidenceNameAndVal);// adding relevents var names to factor
 
         HashMap<String, HashMap<String, Double>> cptTable = node.getCptTable();
         Iterator<String> iterMapKeys = cptTable.keySet().iterator();
@@ -42,15 +41,14 @@ public class CptToFactor {
     /**
      *
      * @param factor
-     * @param node
      * @param evidenceNameAndVal
      */
-    public static void removeIreleventRowsAndcols(Factor factor,Node node, HashMap<String, String> evidenceNameAndVal){
+    public static void removeIreleventRowsAndcols(Factor factor, HashMap<String, String> evidenceNameAndVal){
         ArrayList<String> varNames=factor.getVarNames();
-        ArrayList<Integer> indexToRemvoe=new ArrayList<>();
+        ArrayList<Integer> indexToRemove=new ArrayList<>();
         for(int i=0;i<varNames.size();i++){
             if(evidenceNameAndVal.containsKey(varNames.get(i))){
-                indexToRemvoe.add(i);
+                indexToRemove.add(i);
             }
         }
         ArrayList<ArrayList<String>> factorTable=factor.getFactorTable();
@@ -62,8 +60,8 @@ public class CptToFactor {
             Iterator<String> colsIterator=cols.iterator();
             int i=0; boolean removeRaw=false;
             while (colsIterator.hasNext()){
-                String singleKey=colsIterator.next();
-                if(indexToRemvoe.contains(i) && evidenceNameAndVal.containsKey(varNames.get(i))) {
+                String singleKey=colsIterator.next();//TODO check cond two
+                if(indexToRemove.contains(i) && evidenceNameAndVal.containsKey(varNames.get(i))) {
                     if(!singleKey.equals(evidenceNameAndVal.get(varNames.get(i)))){
                         removeRaw=true;
                     }
@@ -78,20 +76,20 @@ public class CptToFactor {
         }
         System.out.println("Debug ****before removing cols***"); //
         System.out.println(factor);
-        removeIreleventCols(factor , indexToRemvoe);
+        removeIreleventCols(factor , indexToRemove);
     }
-    private static void removeIreleventCols(Factor factor,ArrayList<Integer>  indexToRemvoe){
+    private static void removeIreleventCols(Factor factor,ArrayList<Integer>  indexToRemove){
         ArrayList<ArrayList<String>> factorTable=factor.getFactorTable();
-        for (int i=0; i<indexToRemvoe.size();i++){
-            indexToRemvoe.set(i,indexToRemvoe.get(i)-(i));
+        for (int i=0; i<indexToRemove.size();i++){
+            indexToRemove.set(i,indexToRemove.get(i)-(i));
         }
         for (ArrayList<String> aFactorTable : factorTable) {
-            for (Integer anIndexToRemvoe : indexToRemvoe) {
-                aFactorTable.remove((int) anIndexToRemvoe);
+            for (Integer anindexToRemove : indexToRemove) {
+                aFactorTable.remove((int) anindexToRemove);
             }
         }
-        for (Integer anIndexToRemvoe : indexToRemvoe) {
-            factor.removeFactorVarName(anIndexToRemvoe);
+        for (Integer anindexToRemove : indexToRemove) {
+            factor.removeFactorVarName(anindexToRemove);
         }
     }
 

@@ -7,14 +7,15 @@ public class Factor {
     private ArrayList<ArrayList<String>> factorTable;
     private ArrayList<Double> factorValues;
     private ArrayList<String> varNames;
-    String valueName="Factor Values:"; // "P(M|A)"
+    String valueName=""; // "P(M|A)"
     private static int factorSeqNum=0;
+    private int seqNumber;
 
     public Factor() {
         factorTable=new ArrayList<>();
         factorValues=new ArrayList<>();
         varNames=new ArrayList<>();
-        factorSeqNum++;
+        seqNumber=factorSeqNum++;
     }
 
     public ArrayList<String> getVarNames() {
