@@ -41,7 +41,7 @@ class BayesinNetwork {
         switch (queryAlgoSplited[1]){
             case "1":ans= AlgoOne.ansForQuery(queryAlgoSplited[0],this);
                 break;
-            case "2":
+            case "2":ans=AlgoTwo.ansForQuery(queryAlgoSplited[0],this);
                 break;
             case "3":
                 break;

@@ -7,7 +7,8 @@ import java.util.*;
 public class AlgoTwo{//TODO Kadmon father
     private static FactorManager factorManager=new FactorManager();
     private static BayesinNetwork bayesinNetwork;
-    public static QueryAnsFormat ansForQuery(BayesinNetwork bayesinNetwork,String query){
+    public static QueryAnsFormat ansForQuery(String query,BayesinNetwork bayesinNetwork){
+        JoinFactors.countMulti=0; JoinFactors.countPlus=0;
         factorManager=new FactorManager();
         AlgoTwo.bayesinNetwork=bayesinNetwork;
         String queryVarNameAndValue[]=generateVarNameAndValue(query);
@@ -15,6 +16,7 @@ public class AlgoTwo{//TODO Kadmon father
         buidFactorManager(evidance);
         ArrayList<String> hiddensNames= generateHiddens(query);
 
+        Collections.sort(hiddensNames);
         for(String hiddenName:hiddensNames) {
              // Pick a hidden varibale H
             ArrayList<Factor> factorsByName =new ArrayList<>(factorManager.getFactorByValueName(hiddenName));//sorted by factor varName size
@@ -25,7 +27,6 @@ public class AlgoTwo{//TODO Kadmon father
             Factor joinedFactor = joinAllFactors(bayesinNetwork, factorsByName);//join Hidden Factors
             JoinFactors.eliminateVar(joinedFactor,hiddenName); // Eliminate H
 
-            System.out.println("\n"+hiddenName+" "+"after join and elimineted: \n"+joinedFactor);
             factorManager.addFactor(joinedFactor);
 
         }
@@ -39,12 +40,10 @@ public class AlgoTwo{//TODO Kadmon father
 
         QueryAnsFormat ans=queryAns(joinedFactor,queryVarNameAndValue);
 
-        System.out.println("\n"+query+'\n'+"***ans***\n"+ans);
-
-      return null;
+      return ans;
     }
     private static QueryAnsFormat queryAns(Factor factor,String[] queryVarNameAndValue){
-        double numenator=0.0;
+        double numenator=0.0;int countPlus=0;
         ArrayList<ArrayList<String>> factorTable=factor.getFactorTable();
         ArrayList<Double> factorVals=factor.getFactorValues();
 
@@ -58,10 +57,11 @@ public class AlgoTwo{//TODO Kadmon father
         for(int i=0;i<factorTable.size();i++){
             if(!factorTable.get(i).get(0).equals(queryVarNameAndValue[1])){
                 denominator+=factorVals.get(i);
+                countPlus++;
             }
 
         }
-        QueryAnsFormat ans=new QueryAnsFormat((numenator/denominator),0,0);
+        QueryAnsFormat ans=new QueryAnsFormat((numenator/denominator),countPlus+JoinFactors.countPlus,JoinFactors.countMulti);
         return ans;
     }
 
@@ -114,10 +114,12 @@ public class AlgoTwo{//TODO Kadmon father
     }
     private static void buidFactorManager(HashMap<String,String> evidences){
         List<Node> nodes=bayesinNetwork.getNodesValues();
+
         for(Node node:nodes){
             factorManager.addFactor(CptToFactor.cptToFactor(node,evidences));
         }
     }
+
 
 
 

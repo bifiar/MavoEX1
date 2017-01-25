@@ -7,8 +7,8 @@ import java.util.List;
  * Created by Ofir on 1/23/2017.
  */
 public class JoinFactors {
-
-
+public static int countPlus=0;
+public static int countMulti=0;
 
     public static Factor joinFactors(Factor f1, Factor f2,BayesinNetwork bayesinNetwork){
         if(f1.getVarNames().size()<f2.getVarNames().size()) {
@@ -71,6 +71,7 @@ public class JoinFactors {
             for (int j = 0; j <factorTable1.size() ; j++) {
               if(isMatchRow(factorTable1.get(j),factorTable2.get(i),matchF2ToF1)){
                   double newVal=f1.getValue(j)*f2.getValue(i);
+                  countMulti++;
                   f1.setValue(j,newVal);
               }
             }
@@ -107,11 +108,13 @@ public class JoinFactors {
                 if(factorTable.get(i).equals(factorTable.get(j))){
                     if(firstTimeAdd) {
                         newFactorTable.add(new ArrayList<>(factorTable.get(i)));
-                        newfactorValues.add(factorValues.get(i) + factorValues.get(j));// TODO sum plus
+                        newfactorValues.add(factorValues.get(i) + factorValues.get(j));
+                        countPlus++;
                         k++;
                         firstTimeAdd=false;
                     }else{
                         newfactorValues.set(k,newfactorValues.get(k)+factorValues.get(j));
+                        countPlus++;
                     }
                 }
             }
