@@ -79,8 +79,7 @@ public class CptToFactor {
             }
 
         }
-
-        removeIreleventCols(factor , indexToRemove);
+            removeIreleventCols(factor, indexToRemove);
     }
     public static void removeIreleventCols(Factor factor,ArrayList<Integer>  indexToRemove){
         ArrayList<ArrayList<String>> factorTable=factor.getFactorTable();

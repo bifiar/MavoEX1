@@ -99,12 +99,20 @@ public class JoinFactors {
         ArrayList<Double> factorValues=factor.getFactorValues();
         ArrayList<Double> newfactorValues=new ArrayList<>();
         ArrayList<ArrayList<String>> newFactorTable=new ArrayList<>();
-
+        int k=-1;
         for (int i = 0; i <factorTable.size()-1 ; i++) {
+            if(newFactorTable.contains(factorTable.get(i))){continue;}
+            boolean firstTimeAdd=true;
             for (int j = i+1; j <factorTable.size() ; j++) {
                 if(factorTable.get(i).equals(factorTable.get(j))){
-                    newFactorTable.add(new ArrayList<>(factorTable.get(i)));
-                    newfactorValues.add(factorValues.get(i)+factorValues.get(j));// TODO sum plus
+                    if(firstTimeAdd) {
+                        newFactorTable.add(new ArrayList<>(factorTable.get(i)));
+                        newfactorValues.add(factorValues.get(i) + factorValues.get(j));// TODO sum plus
+                        k++;
+                        firstTimeAdd=false;
+                    }else{
+                        newfactorValues.set(k,newfactorValues.get(k)+factorValues.get(j));
+                    }
                 }
             }
         }

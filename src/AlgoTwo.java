@@ -8,6 +8,7 @@ public class AlgoTwo{//TODO Kadmon father
     private static FactorManager factorManager=new FactorManager();
     private static BayesinNetwork bayesinNetwork;
     public static QueryAnsFormat ansForQuery(BayesinNetwork bayesinNetwork,String query){
+        factorManager=new FactorManager();
         AlgoTwo.bayesinNetwork=bayesinNetwork;
         String queryVarNameAndValue[]=generateVarNameAndValue(query);
         HashMap<String,String> evidance=generateEvidance(query);
