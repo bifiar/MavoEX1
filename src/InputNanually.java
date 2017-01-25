@@ -89,14 +89,14 @@ public class InputNanually {
         m.generateCptLine("true,=true,0.7");
         m.generateCptLine("false,=true,0.01");
 
-//        ArrayList<QueryAnsFormat> queryAnsFormats=new ArrayList<>();
-//        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(B=true|J=true,M=true),1"));
-//        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(B=true|J=true,M=true),2"));
-//        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(B=true|J=true,M=true),3"));
-//        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(J=true|B=true),1"));
-//        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(J=true|B=true),2"));
-//
-//        WriteOutPutFile.writeOutPutFile("output.txt",queryAnsFormats);
+        ArrayList<QueryAnsFormat> queryAnsFormats=new ArrayList<>();
+        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(B=true|J=true,M=true),1"));
+        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(B=true|J=true,M=true),2"));
+        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(B=true|J=true,M=true),3"));
+        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(J=true|B=true),1"));
+        queryAnsFormats.add(bayesinNetwork.getQueryAns("P(J=true|B=true),2"));
+
+        WriteOutPutFile.writeOutPutFile("output.txt",queryAnsFormats);
 
         return bayesinNetwork;
     }

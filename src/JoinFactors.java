@@ -10,6 +10,13 @@ public class JoinFactors {
 public static int countPlus=0;
 public static int countMulti=0;
 
+    /**
+     * join to factors
+     * @param f1
+     * @param f2
+     * @param bayesinNetwork
+     * @return
+     */
     public static Factor joinFactors(Factor f1, Factor f2,BayesinNetwork bayesinNetwork){
         if(f1.getVarNames().size()<f2.getVarNames().size()) {
             Factor tempFactor = f1;
@@ -27,6 +34,13 @@ public static int countMulti=0;
        return mlutipaleMatchRows(f1,f2);
 
     }
+
+    /**
+     *  join one row to factor
+     * @param factor
+     * @param nodeName
+     * @param values
+     */
     public static void addNodeToFactor(Factor factor,String nodeName,List<String> values){
         ArrayList<Double> factorValues=factor.getFactorValues();
         ArrayList<Double> newFactorValues=new ArrayList<>();
@@ -47,6 +61,13 @@ public static int countMulti=0;
         factor.setFactorValues(newFactorValues);
 
     }
+
+    /**
+     *  multipale match row values
+     * @param f1
+     * @param f2
+     * @return
+     */
     public static Factor mlutipaleMatchRows(Factor f1,Factor f2){// f1 after join rows from f2(small)
         if(f1.getVarNames().size()<f2.getVarNames().size()) {
             Factor tempFactor = f1;
@@ -91,6 +112,12 @@ public static int countMulti=0;
         }
         return rowF2.size()==countMatch;
     }
+
+    /**
+     * eliminate var from factor
+     * @param factor
+     * @param varName
+     */
     public static void eliminateVar(Factor factor,String varName){
         int indexToRemove=factor.getVarNameIndex(varName);
         ArrayList<Integer> toRemove=new ArrayList<>();

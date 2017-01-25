@@ -14,7 +14,7 @@ class WriteOutPutFile {
             writer = new BufferedWriter(new FileWriter(FileName));
             for(QueryAnsFormat ans:answers){
                 if(ans==null){
-                    writer.write("not supported yet");
+                    writer.write("problem on txt file, continue to next line");
                     writer.newLine();
                 }else {
                     writer.write(ans.toString());

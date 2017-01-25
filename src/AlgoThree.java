@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Ofir on 1/25/2017.
@@ -26,7 +25,12 @@ public class AlgoThree {
             }
             return ans;
         });
-        ArrayList<String> newHiddenVarNames= factors.stream().filter(factor -> hiddens.contains(factor.valueName)).map(factor -> factor.valueName).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> newHiddenVarNames=new ArrayList<>();
+        for(Factor factor:factors){
+            if(hiddens.contains(factor.valueName)){
+                newHiddenVarNames.add(factor.valueName);
+            }
+        }
         return newHiddenVarNames;
     }
 }
