@@ -9,29 +9,81 @@ public class AlgoTwo{//TODO Kadmon father
     private static BayesinNetwork bayesinNetwork;
     public static QueryAnsFormat ansForQuery(BayesinNetwork bayesinNetwork,String query){
         AlgoTwo.bayesinNetwork=bayesinNetwork;
+        String queryVarNameAndValue[]=generateVarNameAndValue(query);
         HashMap<String,String> evidance=generateEvidance(query);
         buidFactorManager(evidance);
         ArrayList<String> hiddensNames= generateHiddens(query);
-//        for(String hiddenName:hiddensNames) {
-//            ArrayList<Factor> factorsByName = factorManager.getFactorByValueName(hiddenName);
-//            Factor afterJoin = new Factor();
-//            if(factorsByName.size()>1){
-//                Factor firstFactor = factorsByName.get(0);
-//                Factor seconedFactor = factorsByName.get(1);
-//            }
-//            for(Factor factor : factorsByName ){
-//                afterJoin = JoinFactors.joinFactors()
-//            }
-//
-//        }
 
-        System.out.println(factorManager);
+        for(String hiddenName:hiddensNames) {
+             // Pick a hidden varibale H
+            ArrayList<Factor> factorsByName =new ArrayList<>(factorManager.getFactorByValueName(hiddenName));//sorted by factor varName size
+            if(factorsByName.size()<2){
+                JoinFactors.eliminateVar(factorsByName.get(0),hiddenName);
+                continue;
+            }
+            Factor joinedFactor = joinAllFactors(bayesinNetwork, factorsByName);//join Hidden Factors
+            JoinFactors.eliminateVar(joinedFactor,hiddenName); // Eliminate H
 
+            System.out.println("\n"+hiddenName+" "+"after join and elimineted: \n"+joinedFactor);
+            factorManager.addFactor(joinedFactor);
 
+        }
+        ArrayList<Factor> allRemainingFactors=factorManager.getFactors();
+        Factor joinedFactor=null;
+        if(allRemainingFactors.size()>=2){//join remaining Factors
+            joinedFactor = joinAllFactors(bayesinNetwork, allRemainingFactors);
+        }else{
+            joinedFactor=allRemainingFactors.get(0);
+        }
+
+        QueryAnsFormat ans=queryAns(joinedFactor,queryVarNameAndValue);
+
+        System.out.println("\n"+query+'\n'+"***ans***\n"+ans);
 
       return null;
     }
+    private static QueryAnsFormat queryAns(Factor factor,String[] queryVarNameAndValue){
+        double numenator=0.0;
+        ArrayList<ArrayList<String>> factorTable=factor.getFactorTable();
+        ArrayList<Double> factorVals=factor.getFactorValues();
 
+        for(int i=0;i<factorTable.size();i++){
+            if(factorTable.get(i).get(0).equals(queryVarNameAndValue[1])){
+                numenator=factorVals.get(i);
+            }
+
+        }
+        double denominator=numenator;
+        for(int i=0;i<factorTable.size();i++){
+            if(!factorTable.get(i).get(0).equals(queryVarNameAndValue[1])){
+                denominator+=factorVals.get(i);
+            }
+
+        }
+        QueryAnsFormat ans=new QueryAnsFormat((numenator/denominator),0,0);
+        return ans;
+    }
+
+    private static Factor joinAllFactors(BayesinNetwork bayesinNetwork, ArrayList<Factor> factorsToJoin) {
+        Factor joinedFactors=null;
+        while (factorsToJoin.size()>1){// join all factors  mentioning  H
+            Collections.sort(factorsToJoin);
+            Factor f1=factorsToJoin.remove(0);
+            Factor f2=factorsToJoin.remove(0);
+            factorManager.removeFactor(f1);//remove factors from factor Manager
+            factorManager.removeFactor(f2);
+            joinedFactors=JoinFactors.joinFactors(f1,f2,bayesinNetwork);
+            factorsToJoin.add(joinedFactors);
+        }
+        return joinedFactors;
+    }
+
+    private static String[] generateVarNameAndValue(String query){
+        String spiltedQuery[]=query.replace("P","").replace("(","").replace(")","").replace("|",",").split(",");
+        String varNameAndVal[]=spiltedQuery[0].split("=");
+        varNameAndVal[1]=bayesinNetwork.getNode(varNameAndVal[0]).getValues().get(varNameAndVal[1]);
+        return varNameAndVal;
+    }
     private static HashMap<String,String> generateEvidance(String query){
         HashMap<String,String> evidences=new HashMap<>();
         String spiltedQuery[]=query.replace("P","").replace("(","").replace(")","").replace("|",",").split(",");

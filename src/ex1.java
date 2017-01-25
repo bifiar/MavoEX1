@@ -12,9 +12,10 @@ public class ex1 {
 //        HashMap<String,String> evdinceVarNameAndVal=new HashMap<>();
 //        evdinceVarNameAndVal.put("J","0");
 //        evdinceVarNameAndVal.put("M","0");
-        System.out.println("input 1");
-        BayesinNetwork bn1=InputNanually.bayesinNetwork1();
-        AlgoTwo.ansForQuery(bn1,"P(B=true|J=true,M=true)");
+        System.out.println("input 2");
+        BayesinNetwork bn2=InputNanually.bayesinNetwork2();
+     // AlgoTwo.ansForQuery(bn2,"P(C=run|B=set,A=true)");
+       AlgoTwo.ansForQuery(bn2,"P(A=true|C=run)");
 //        Factor f1=CptToFactor.cptToFactor(bn1.getNode("J"),evdinceVarNameAndVal);
 //        Factor f2=CptToFactor.cptToFactor(bn1.getNode("M"),evdinceVarNameAndVal);
 //        Factor f3=CptToFactor.cptToFactor(bn1.getNode("A"),evdinceVarNameAndVal);

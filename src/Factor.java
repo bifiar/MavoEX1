@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by Ofir on 1/22/2017.
  */
-public class Factor {
+public class Factor implements Comparable<Factor>{
     private ArrayList<ArrayList<String>> factorTable;
     private ArrayList<Double> factorValues;
     private ArrayList<String> varNames;
@@ -99,5 +100,18 @@ public class Factor {
                 "\nfactorValues=" + factorValues +
                 "\nvarNames=" + varNames
                 ;
+    }
+
+
+
+    @Override
+    public int compareTo(Factor o) {
+        int ans=0;
+        if(this.getVarNames().size()>o.getVarNames().size()){
+            ans=1;
+        }else if(this.getVarNames().size()<o.getVarNames().size()){
+            ans=-1;
+        }
+        return ans;
     }
 }

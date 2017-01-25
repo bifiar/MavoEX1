@@ -9,7 +9,14 @@ public class FactorManager {
     public FactorManager() {
         this.factors = new ArrayList<>();
     }
-    public void removeFactor(Factor f){factors.remove(f);}
+    public void removeFactor(Factor f){
+       boolean temp= factors.remove(f);
+    }
+
+    public ArrayList<Factor> getFactors() {
+        return factors;
+    }
+
     public void addFactor(Factor f){
         factors.add(f);
     }
