@@ -31,7 +31,7 @@ public class AlgoTwo{//TODO Kadmon father
 
         }
         ArrayList<Factor> allRemainingFactors=factorManager.getFactors();
-        Factor joinedFactor=null;
+        Factor joinedFactor;
         if(allRemainingFactors.size()>=2){//join remaining Factors
             joinedFactor = joinAllFactors(bayesinNetwork, allRemainingFactors);
         }else{
@@ -43,17 +43,17 @@ public class AlgoTwo{//TODO Kadmon father
       return ans;
     }
     private static QueryAnsFormat queryAns(Factor factor,String[] queryVarNameAndValue){
-        double numenator=0.0;int countPlus=0;
+        double numerator=0.0;int countPlus=0;
         ArrayList<ArrayList<String>> factorTable=factor.getFactorTable();
         ArrayList<Double> factorVals=factor.getFactorValues();
 
         for(int i=0;i<factorTable.size();i++){
             if(factorTable.get(i).get(0).equals(queryVarNameAndValue[1])){
-                numenator=factorVals.get(i);
+                numerator=factorVals.get(i);
             }
 
         }
-        double denominator=numenator;
+        double denominator=numerator;
         for(int i=0;i<factorTable.size();i++){
             if(!factorTable.get(i).get(0).equals(queryVarNameAndValue[1])){
                 denominator+=factorVals.get(i);
@@ -61,7 +61,7 @@ public class AlgoTwo{//TODO Kadmon father
             }
 
         }
-        QueryAnsFormat ans=new QueryAnsFormat((numenator/denominator),countPlus+JoinFactors.countPlus,JoinFactors.countMulti);
+        QueryAnsFormat ans=new QueryAnsFormat((numerator/denominator),countPlus+JoinFactors.countPlus,JoinFactors.countMulti);
         return ans;
     }
 
@@ -119,11 +119,19 @@ public class AlgoTwo{//TODO Kadmon father
             factorManager.addFactor(CptToFactor.cptToFactor(node,evidences));
         }
     }
-
-
-
-
-
-
-
+    private static void removeNotAncestorNode( List<Node> nodes,Set<String> evidences,String queryVarName){
+        List<Node> candidates=new ArrayList<>();
+        for(Node node:nodes){
+            String nodeName=node.getName();
+            if(!evidences.contains(nodeName) && !queryVarName.equals(nodeName)){
+                candidates.add(node);
+            }
+        }
+    }
+    private static boolean isAncestor(Node candidate,String varOrEvidance){
+        boolean keepGoing=true;
+        Node varOrEvidanceNode=bayesinNetwork.getNode(varOrEvidance);
+        ArrayList<Node> parents=varOrEvidanceNode.getParents();
+        return false;
+    }
 }

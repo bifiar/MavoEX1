@@ -10,6 +10,8 @@ public class ex1 {
     public static void main(String[] args) {
 
             ReadInputFile.readFileLineByLine("input.txt");
+
+
 //        System.out.println("input 1");
 //        BayesinNetwork bn1=InputNanually.bayesinNetwork1();
 //
