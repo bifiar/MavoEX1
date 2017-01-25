@@ -13,7 +13,7 @@ public class AlgoTwo{//TODO Kadmon father
         AlgoTwo.bayesinNetwork=bayesinNetwork;
         String queryVarNameAndValue[]=generateVarNameAndValue(query);
         HashMap<String,String> evidance=generateEvidance(query);
-        buidFactorManager(evidance);
+        buidFactorManager(evidance,queryVarNameAndValue[0]);
         ArrayList<String> hiddensNames= generateHiddens(query);
 
         Collections.sort(hiddensNames);
@@ -21,7 +21,9 @@ public class AlgoTwo{//TODO Kadmon father
              // Pick a hidden varibale H
             ArrayList<Factor> factorsByName =new ArrayList<>(factorManager.getFactorByValueName(hiddenName));//sorted by factor varName size
             if(factorsByName.size()<2){
-                JoinFactors.eliminateVar(factorsByName.get(0),hiddenName);
+                if(factorsByName.size()==1) {
+                    JoinFactors.eliminateVar(factorsByName.get(0), hiddenName);
+                }
                 continue;
             }
             Factor joinedFactor = joinAllFactors(bayesinNetwork, factorsByName);//join Hidden Factors
@@ -112,26 +114,50 @@ public class AlgoTwo{//TODO Kadmon father
         }
         return hiddens;
     }
-    private static void buidFactorManager(HashMap<String,String> evidences){
+    private static void buidFactorManager(HashMap<String,String> evidences,String queryVarName){
         List<Node> nodes=bayesinNetwork.getNodesValues();
-
+        removeNotAncestorNode(nodes,evidences.keySet(),queryVarName);
         for(Node node:nodes){
             factorManager.addFactor(CptToFactor.cptToFactor(node,evidences));
         }
     }
     private static void removeNotAncestorNode( List<Node> nodes,Set<String> evidences,String queryVarName){
+        ArrayList<String> newEvidences=new ArrayList<>(evidences);
+        newEvidences.add(queryVarName);
         List<Node> candidates=new ArrayList<>();
         for(Node node:nodes){
             String nodeName=node.getName();
-            if(!evidences.contains(nodeName) && !queryVarName.equals(nodeName)){
+            if(!newEvidences.contains(nodeName)){
                 candidates.add(node);
             }
         }
+
+        for(Node candidate:candidates){
+            boolean isAnchoster=false;
+            for(String evidanceOrQueryVar:newEvidences){
+                if(isAncestor(candidate,evidanceOrQueryVar)){
+                    isAnchoster=true;
+                }
+            }
+            if(!isAnchoster){
+                nodes.remove(candidate);
+            }
+        }
+
     }
     private static boolean isAncestor(Node candidate,String varOrEvidance){
-        boolean keepGoing=true;
         Node varOrEvidanceNode=bayesinNetwork.getNode(varOrEvidance);
         ArrayList<Node> parents=varOrEvidanceNode.getParents();
+
+        if(parents.contains(candidate)){
+            return  true;
+        }
+        else{
+            for(Node parent : parents){
+                return isAncestor(candidate, parent.getName());
+            }
+
+        }
         return false;
     }
 }
