@@ -34,17 +34,24 @@ class BayesinNetwork {
      * @return
      */
     QueryAnsFormat getQueryAns(String queryAndAlgo){
-        String queryAlgoSplited[]=queryAndAlgo.split("\\)");
-        queryAlgoSplited[1]=queryAlgoSplited[1].replace(",","");
-        queryAlgoSplited[0]=queryAlgoSplited[0]+")";
-        QueryAnsFormat ans=null;
-        switch (queryAlgoSplited[1]){
-            case "1":ans= AlgoOne.ansForQuery(queryAlgoSplited[0],this);
-                break;
-            case "2":ans=AlgoTwo.ansForQuery(queryAlgoSplited[0],this);
-                break;
-            case "3":
-                break;
+        QueryAnsFormat ans = null;
+        try {
+            String queryAlgoSplited[] = queryAndAlgo.split("\\)");
+            queryAlgoSplited[1] = queryAlgoSplited[1].replace(",", "");
+            queryAlgoSplited[0] = queryAlgoSplited[0] + ")";
+            switch (queryAlgoSplited[1]) {
+                case "1":
+                    ans = AlgoOne.ansForQuery(queryAlgoSplited[0], this);
+                    break;
+                case "2":
+                    ans = AlgoTwo.ansForQuery(queryAlgoSplited[0], this, 2);
+                    break;
+                case "3":
+                    ans = AlgoTwo.ansForQuery(queryAlgoSplited[0], this, 3);
+                    break;
+            }
+        }catch (Exception ex){
+            ans=null;
         }
         return ans;
     }

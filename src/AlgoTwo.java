@@ -3,11 +3,12 @@ import java.util.*;
 /**
  * Created by Ofir on 1/22/2017.
  */
-//P(B=true|J=true,M=true)
-public class AlgoTwo{//TODO Kadmon father
+
+public class AlgoTwo{
     private static FactorManager factorManager=new FactorManager();
     private static BayesinNetwork bayesinNetwork;
-    public static QueryAnsFormat ansForQuery(String query,BayesinNetwork bayesinNetwork){
+
+    public static QueryAnsFormat ansForQuery(String query,BayesinNetwork bayesinNetwork,int sortOption){
         JoinFactors.countMulti=0; JoinFactors.countPlus=0;
         factorManager=new FactorManager();
         AlgoTwo.bayesinNetwork=bayesinNetwork;
@@ -15,8 +16,12 @@ public class AlgoTwo{//TODO Kadmon father
         HashMap<String,String> evidance=generateEvidance(query);
         buidFactorManager(evidance,queryVarNameAndValue[0]);
         ArrayList<String> hiddensNames= generateHiddens(query);
+        if(sortOption==2) {
+            Collections.sort(hiddensNames);
+        }else if(sortOption==3){
+            hiddensNames=AlgoThree.sortHiddensBySize(hiddensNames,factorManager);
+        }
 
-        Collections.sort(hiddensNames);
         for(String hiddenName:hiddensNames) {
              // Pick a hidden varibale H
             ArrayList<Factor> factorsByName =new ArrayList<>(factorManager.getFactorByValueName(hiddenName));//sorted by factor varName size

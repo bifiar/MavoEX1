@@ -19,7 +19,6 @@ class AlgoOne {
         numofPlus=0;numofMulti=0;
 
         double numerator=generateQuery(query);
-//      System.out.println(query+" "+generateQuery(query));
         String formatQuery = query.replace("(", "").replace(")", "").replace("P", "").replace("|", ",");
         String splitedQuery[]=formatQuery.split("(,)|(=)");
         String queryName=splitedQuery[0];
@@ -30,7 +29,6 @@ class AlgoOne {
         for(String value:values){
             if(!(value.equals(queryVal))) {
                 String queryReplaced = query.replace(queryName + "=" + queryVal, queryName + "=" + value);
- //               System.out.println(queryReplaced+" "+generateQuery(queryReplaced));
                 denominator += generateQuery(queryReplaced);
                 numofPlus++;
             }
